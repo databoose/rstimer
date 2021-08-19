@@ -17,7 +17,7 @@ fn get_secs_of(mut hour:u16, mut minute:u16, second:u16) -> u16 {
 	let mut total_seconds = second;
 	while hour > 0 {
 		hour = hour - 1;
-		total_seconds += 3600;
+		total_seconds += 3600; // 3600 seconds in an hour
 	}
 	while minute > 0 {
 		minute = minute - 1;
@@ -61,7 +61,7 @@ fn main() -> Result<(), Box<dyn Error>>  {
 					}
 				}
 				let current_time = get_secs_of(hour,minute,second);
-				println!("{}:{}:{} ({:.2}% done)", hour, minute, second, get_pct_of(current_time, old_time));
+				println!("{}:{}:{} ({:.2}% left)", hour, minute, second, get_pct_of(current_time, old_time));
 				print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
 				
 				thread::sleep(time::Duration::from_secs(1));
