@@ -38,16 +38,26 @@ fn main() -> Result<(), Box<dyn Error>>  {
 			let mut hour = vec[0].trim().parse::<u16>().unwrap();
 			let mut minute = vec[1].trim().parse::<u16>().unwrap();
 			let mut second = vec[2].trim().parse::<u16>().unwrap();
-		
+
+			input = String::new(); // clear input
+			let mut msg = String::new();
+			printit("Enter message (enter if none) :");
+			match io::stdin().read_line(&mut input) {
+				Ok(_) => {
+					msg = String::from(input);
+				}
+				Err(error) => println!("error: {}", error),
+			}
+
 			let old_time = get_secs_of(hour, minute, second);
     		println!("Started timer...");
 			loop  {
 				if second <= 0 {
 					if second <= 0 && minute <= 0 && hour <= 0 {
-						println!("done");
+						println!("timer done");
 						Notification::new()
 							.summary("rstimer")
-							.body("Timer done...")
+							.body(&msg)
 							.show()?;
 						break;
 					}
