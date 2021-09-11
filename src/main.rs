@@ -27,7 +27,7 @@ fn get_secs_of(mut hour:u16, mut minute:u16, second:u16) -> u16 {
 }
 
 fn main() -> Result<(), Box<dyn Error>>  {
-    printit(&String::from("Enter time (h/m/s): "));
+    printit(&String::from("Enter time (h/m/s) : "));
     let mut input = String::new();
     match io::stdin().read_line(&mut input) {
     	Ok(_) => {
@@ -41,7 +41,7 @@ fn main() -> Result<(), Box<dyn Error>>  {
 
 			input = String::new(); // clear input
 			let mut msg = String::new();
-			printit("Enter message (enter if none) :");
+			printit("Enter message (enter if none) : ");
 			match io::stdin().read_line(&mut input) {
 				Ok(_) => {
 					msg = String::from(input);
@@ -54,7 +54,7 @@ fn main() -> Result<(), Box<dyn Error>>  {
 			loop  {
 				if second <= 0 {
 					if second <= 0 && minute <= 0 && hour <= 0 {
-						println!("timer done");
+						println!("timer for [{}] done", msg);
 						Notification::new()
 							.summary("rstimer")
 							.body(&msg)
@@ -71,7 +71,7 @@ fn main() -> Result<(), Box<dyn Error>>  {
 					}
 				}
 				let current_time = get_secs_of(hour,minute,second);
-				println!("{}:{}:{} ({:.2}% left)", hour, minute, second, get_pct_of(current_time, old_time));
+				println!("{}:{}:{} ({:.2}% left) (Message : {})", hour, minute, second, get_pct_of(current_time, old_time), msg);
 				print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
 				
 				thread::sleep(time::Duration::from_secs(1));
